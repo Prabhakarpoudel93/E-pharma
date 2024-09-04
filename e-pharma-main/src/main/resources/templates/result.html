@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Result</title>
+<style type="text/css">
+    span {
+        display: inline-block;
+        width: 200px;
+        text-align: left;
+    }
+</style>
+</head>
+<body>
+<div text-align="center">
+    <h2>  <p th:text="*{messageDto.message}">Failure!</p></h2>
+</div>
+</body>
+</html>

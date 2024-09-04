@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorator="layouts/default">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        footer {
+        background-color: rgb(31,45,90);
+        color: white;
+        padding: 15px;
+        text-align: center;
+        }
+        footer a:visited{color:white;}
+        </style>
+    </head>
+    <body>
+        <div th:fragment="footer">
+            <footer class="container-fluid">
+                <p class="footerText">&copy Copyright reserved:<a href="https://enqueuesoft.com.np" target="_blank" class="w3-hover-black">EnqueueSoft.com</a></p>
+            </footer>
+        </div>
+    </body>
+</html>

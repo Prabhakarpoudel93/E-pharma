@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head> 
+        <title>
+            Sales
+        </title>
+     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script> 
+    <style>
+        footer {
+        background-color: rgb(31,45,90);
+        color: white;
+        padding: 15px;
+        text-align: center;
+        }
+        footer a:visited{color:white;}
+        .mainCardController{
+          margin-left: 400px;
+          margin-bottom: 150px;
+        }
+      ul li:hover,
+      body.user li.user,
+      body.medicine li.medicine,
+      body.stock li.stock,
+      body.sale li.sale,
+      body.bill li.bill {
+      background-color: rgb(31, 45, 90)
+      }
+
+      ul li:hover a,
+      body.user li.user a,
+      body.medicine li.medicine a,
+      body.stock li.stock a,
+      body.sale li.sale a,
+      body.bill li.bill a {
+        color: #fff;
+      }
+    </style>
+    </head>
+        <body class="sale">
+          <div th:replace="fragments/header :: header"></div>
+          <div class="w3-container">
+            <div class="w3-card-4" style="margin-top: 50px; margin-bottom: 150px; margin-left: 18%;">
+              <div  class="container py-5">
+                <h2>Add Sales</h2>
+              </div>
+              <!-- <form class="w3-container" th:action="@{/addSales}" method="post" th:object="${salesDto}"> 
+                <br><p>      
+                  <label class="w3-text-black"><b>Medicine Name</b></label>
+                  <br>
+                  <select id="medicineId" th:field="*{medicineId}">
+                    <option value="" disabled selected>Please select a medicine</option>
+                    <option th:each="m : ${medicinesDtoList}"
+                            th:value="${m.medicineId}"
+                            th:text="${m.medicineName}">
+                          </option>
+                  </select></p>
+                  <p>      
+                    <label class="w3-text-black"><b>Quantity</b></label>
+                    <input class="w3-input w3-border w3-light-grey" name="quantity" th:field="*{quantity}" type="text"></p>
+                    <p>      
+                      <label class="w3-text-black"><b>Price</b></label>
+                      <input class="w3-input w3-border w3-light-grey" name="price" th:field="*{price}" type="text"></p>
+                    <p>      
+                        <label class="w3-text-black"><b>Check Out Date</b></label><br>
+                        <input type="date" name="checkOutDate" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" />
+                    <br>
+                  <div class="mt-xl-5">
+                    <br>
+                    <input type="submit" value="submit" class="btn btn-success btn-lg mb-1">
+                    <div th:if="${isSalesAdded}">
+                      <input type="button" value="Print Bill" class="btn btn-primary btn-lg mb-1">
+                    </div>
+                </div>
+                <p th:each="entry : ${messageDto.vm.message}">
+                  <span th:text="${entry.key}">Key</span>: <span th:text="${entry.value}">Value</span>
+                </p>    
+              </form>-->
+
+              <form class="w3-container" id="addSalesBulk">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Medicine Name</th>
+                      <th>Batch No</th>
+                      <th>Expiry Date</th>
+                      <th>Quantity(Per Tab)</th>
+                      <th>Price</th>
+                      <th>CheckOutDate</th>
+                    </tr>
+                  </thead>
+                  <tbody id="addRowBody">
+                    <tr>
+                      <td>
+                          <select id="medicineId" name="medicineId" style="margin-right: 5px;" required>
+                          <option value="" disabled selected>Please select a medicine</option>
+                          <option th:each="m : ${medicinesDtoList}"
+                            th:value="${m.medicineId}"
+                            th:text="${m.medicineName}">
+                          </option>
+                          </select>
+                      </td>
+                      <td><input  type="text" name="batchNo" style="width: 100px; margin-right: 5px;" ></td>
+                        <td><input type="date" name="expiryDate" style="margin-right: 5px;" /></td>
+                        <td><input  type="number" name="quantity" style="width: 150px; margin-right: 5px;"></td>
+                      <td><input type="number" step="0.01" name="price" style="width: 100px; margin-right: 5px; "></td>
+                      <td><input type="date" name="checkOutDate" th:value="${#dates.format(#dates.createNow(), 'yyy-MM-dd')}" /></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <button  class="btn-info"  onclick="addNewRows(event);" style="margin-top: 20px; margin-bottom: 20px;">➕</button>
+                <button  class="btn-danger"  id="removeRow" style="margin-top: 20px; margin-bottom: 20px;">✖</button>
+                <input type="submit" value="Save"/>
+              </form>
+            </div>
+              <div class="w3-card-4" style="width: 85%;  margin-left: 200px; margin-top: 50px; margin-bottom: 150px;">
+              <div  class="container py-5 h-100" style="margin-bottom: 30px;">
+                <h2>Search Sales</h2>
+              </div>
+              <form class="w3-container" id="searchBySalesIdForm">
+                <label class="w3-text-black"><b>Find by Sales id </b></label><br>
+                <input type="number" name="salesId" th:value="*{salesId}" placeholder="Enter Sales Id" required/>
+                <div class="mt-xl-5">
+                  <br>
+                  <input type="submit" value="Search" class="btn btn-success btn-lg mb-1">
+                </div>
+              </form>
+              <div class="w3-card-4" style="width: 99%;  margin-left: 10px; margin-top: 20px; margin-bottom: 10px;">
+                <div  class="container py-5 h-100">
+                  <h4>Result</h4>
+                </div>
+                <div class="w3-container">
+                  <table class="table table-striped table-primary" id="salesTable">
+    
+                    <thead class="ttop">
+                      <tr class="table-info">
+                        <td><b>Sales Id</b></td>
+                        <td><b>User Name</b></td>
+                        <td><b>Medicine Name</b> </td>
+                        <td><b>BatchNo</b> </td>
+                        <td><b>Qty(PerTab)</b> </td>
+                         <td><b>Price</b> </td>
+                         <td><b>ExpiryDate</b> </td>
+                        <td><b>CheckOut Date</b> </td>
+                        <td><b>Action</b></td>
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+              </div>
+            </div>
+        </div>
+
+
+        <!-- Modal code is here  -->
+        <div id="id01" class="w3-modal" data-backdrop="false">
+          <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+            <div class="w3-center"><br>
+              <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
+              <h2>Update Sales</h2>
+            </div>
+            <form class="w3-container" method="post" action="/updateSales">
+              <div class="w3-section">
+                 <label><b>Sales Id</b></label>
+                <input class="w3-input w3-border w3-margin-bottom" id="updateSalesId" type="text" placeholder="Update update Sales Id" name="salesId" readonly>
+                
+                <label class="w3-text-black"><b>Medicine Name</b></label>
+                <br>
+                <select id="updateMedicineName" name="medicineId">
+                  <option value="" disabled selected>Please select a medicine</option>
+                  <option th:each="m : ${medicinesDtoList}"
+                          th:value="${m.medicineId}"
+                          th:text="${m.medicineName}">
+                        </option>
+                </select></p>
+                <label><b>Batch No</b></label>
+                <input class="w3-input w3-border w3-margin-bottom" type="text" id="updateBatchNo" name="batchNo">
+                <label><b>Expiry Date</b></label><br>
+                <input  type="date" id="updateExpiryDate" name="expiryDate" /><br>
+                <label><b>Quantity(Per Tablet)</b></label>
+                <input class="w3-input w3-border w3-margin-bottom" id="updateQuantity" type="number" placeholder="Update Quantity" name="quantity" required>
+                <label><b>Price</b></label>
+                <input class="w3-input w3-border w3-margin-bottom" id="updatePrice" type="number" placeholder="Update Price" name="price" step="0.01" required>
+                <p>      
+                    <label class="w3-text-black"><b>Check Out Date</b></label><br>
+                    <input type="date" id="updateCheckOutDate" name="checkOutDate" />
+              </div>
+            
+            <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+              <button onclick="document.getElementById('id01').style.display='none'" type="button" class="w3-button w3-red">Cancel</button>
+              <button class="w3-button w3-blue" style="float: right;" type="submit">Update</button>
+            </div>
+            </form>
+          </div>
+        </div>
+      <!-- Modal Code closed -->
+
+
+
+          <div th:replace="fragments/footer :: footer"></div>
+        </body>
+    </head>
+</html>
+
+
+<script>
+    $(document).ready( function () {
+      $('#salesTable').DataTable();
+
+  } );
+
+  $("#searchBySalesIdForm").on("submit", function (event) {
+    event.preventDefault();
+  $.ajax({
+    url: "/searchBySalesId",
+    type: "POST",
+    data:$("#searchBySalesIdForm").serialize(),
+    success: function(data) {
+      // Clear any existing rows in the table
+      $("#salesTable tbody").empty();
+        console.log(data.medicineId);
+        $("#salesTable tbody").append(
+          "<tr>"+
+
+            "<td>" + data.salesId + "</td>"+
+            "<td>" + data.username + "</td>"+
+            "<td>"+  data.medicineName + "</td>"+
+            "<td>"+  data.batchNo + "</td>"+
+            "<td>" + data.quantity + "</td>"+
+            "<td>" + data.price + "</td>"+
+            "<td>" + data.expiryDate.substring(0, 10) + "</td>"+
+            "<td>" + data.checkOutDate.substring(0, 10) + "</td>"+
+            '<td> <button type="button"  id="updateButton" class="btn btn-primary">Update</button> </td>' +
+
+          "</tr>");
+          $("#updateSalesId").val(data.salesId)
+          $("#updateUsername").val(data.username)
+          $("#updateMedicineName").val(data.medicineId)
+           $("#updateBatchNo").val(data.batchNo)
+          $("#updateQuantity").val(data.quantity)
+          $("#updatePrice").val(data.price) 
+          $("#updateExpiryDate").val(data.expiryDate.substring(0, 10))
+          $("#updateCheckOutDate").val(data.checkOutDate.substring(0, 10));
+    },
+    error: function() {
+      alert("Error retrieving data.");
+    }
+  });
+  });
+  $(document).on("click", "#updateButton", function(){
+   
+    $("#id01").modal('show');
+  });
+
+  // code for bulk sales
+
+
+  </script>
+
+<script>
+
+    function populateMedicineSelect(){
+        $.ajax({
+            url: '/medicines',
+            method: 'GET',
+            success: function(response) {
+                var select = $('tr:last-child td:first-child select');
+
+
+                $.each(response, function(index, medicine) {
+                    var option = $('<option>');
+                    option.val(medicine.medicineId);
+                    option.text(medicine.medicineName);
+                    select.append(option);
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+
+    function addNewRows(event){
+        event.preventDefault();
+        console.log("Inside Add New Rows");
+        var newRow = '<tr>' +
+
+            '<td><select class="medicine-select" name="medicineId" style="margin-right: 5px; required">'+
+            '<option value="" disabled selected>Please select a medicine</option>'+
+            '</select></td>' +
+            '<td><input  type="text" name="batchNo" style="width: 100px; margin-right: 5px;"></td>' +
+            '<td><input type="date" name="expiryDate" style="margin-right: 5px;"/></td>'+
+
+            '<td><input  type="number" name="quantity" style=" width: 150px; margin-right: 5px;"></td>' +
+            '<td><input  type="number" step="0.01" name="price" style=" width: 100px; margin-right: 5px;"></td>' +
+
+            '</tr>';
+        $('#addRowBody').append(newRow);
+
+
+        populateMedicineSelect();
+    }
+
+    $('#removeRow').click(function(event) {
+        event.preventDefault(); // prevent the form from submitting normally
+        $('table tbody tr:last-child').remove();
+    });
+
+
+    $('#addSalesBulk').submit(function(event) {
+        event.preventDefault(); // prevent the form from submitting normally
+
+        const formData = [];
+        $('#addSalesBulk tr').each(function() {
+            const obj = {};
+            $(this).find('input, select').each(function() {
+                obj[this.name] = this.value;
+            });
+            formData.push(obj);
+        });
+        console.log(formData);
+        $.ajax({
+            type: 'POST',
+            url: '/addSalesInBulk',
+            contentType: "application/json",
+            data: JSON.stringify(formData),
+
+            success: function(result) {
+                let billId=result.common;
+                if(result.status){
+                    window.location.href = '/bill/'+billId;
+                }else{
+                  let message="";
+
+                    $.each(result.vm.message, function(key, value) {
+                        message=key+": "+value;
+                    });
+                    alert(message);
+                }
+
+
+            },
+            error: function(xhr, status, error) {
+                // handle any errors that occur during the request
+            }
+        });
+    });
+
+</script>

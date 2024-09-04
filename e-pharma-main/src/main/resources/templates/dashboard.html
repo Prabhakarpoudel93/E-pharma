@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+  <head>
+    <title>E-Pharma</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
+    <style>
+      footer {
+      background-color:rgb(31,45,90);
+      color: white;
+      padding: 15px;
+      text-align: center;
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      }
+      footer a:visited{color:white;}
+      /* On small screens, set height to 'auto' for sidenav and grid */
+      @media screen and (max-width: 767px) {
+      .sidenav {
+      height: auto;
+      padding: 15px;
+      }
+      .row.content {height: auto;}
+      }
+      .mainCard{
+      margin-top: 75px;
+      margin-left: 100px;
+      }
+      .card {
+      background-color: #d8d9db;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      width: 50rem;
+      height: 100%;
+      }
+      #avl-stock-table {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  
+}
+
+#avl-stock-table td, #avl-stock-table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#avl-stock-table tr:nth-child(even){background-color: #f2f2f2;}
+
+#avl-stock-table tr:hover {background-color: #ddd;}
+
+#avl-stock-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: rgb(31,45,90);
+  color: white;
+  
+}
+      </style>
+  </head>
+ <body>
+  <div th:replace="fragments/header :: header"></div>
+  <div class="w3-main" style="margin-left:180px">
+    <div class="w3-row w3-padding-64">
+      <h2 style="color: rgb(31,45,90); margin-left: 250px;"><b>Welcome to E-Pharma:  Care to cure </b></h2>
+      <div class="w3-twothird w3-container">
+        <div class="mainCard" >
+          <div class="card" >
+            <div class="card-body">
+            
+              <table id="avl-stock-table" style="text-align: center; "> 
+                <thead>
+                  <tr >
+                    <th style="text-align: center;" >Medicine Name</th>
+                    <th style="text-align: center;">Available Stock</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <div th:replace="fragments/footer :: footer"></div>
+ 
+ </body>
+</html>
+
+<script>
+  $.ajax({
+    url: "/get-avl-stock",
+    type: "GET",
+    success: function(data) {
+      // Clear any existing rows in the table
+      $("#avl-stock-table tbody").empty();
+
+      // Loop through the data and add a new row for each item
+      $.each(data, function(index, item) {
+        $("#avl-stock-table tbody").append("<tr><td>" + item.medicineName + "</td><td>" + item.availableStock + "</td></tr>");
+      });
+    },
+    error: function() {
+      alert("Error retrieving data.");
+    }
+  });
+
+ 
+</script>
+<!--<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+  <head>
+    <title>E-Pharma</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+    .sidenav {
+    height: auto;
+    padding: 15px;
+    }
+    .row.content {height: auto;}
+    }
+    .mainCard{
+    margin-top: 75px;
+    margin-left: 100px;
+    }
+    .card {
+    background-color: #d8d9db;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    width: 50rem;
+    height: 100%;
+    }
+    </style>
+  </head>
+  <body>
+    <div th:replace="header :: header"></div>
+        <div class="w3-main" style="margin-left:250px">
+          <div class="w3-row w3-padding-64">
+            <marquee><h2 style="color: blue;"><b>Welcome to E-Pharma, Software that manages all your pharma stuff's.</b></h2></marquee>
+            <div class="w3-twothird w3-container">
+              <div class="mainCard">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+  </html> -->
+<!-- Old code is down one and new is up one -->
+<!-- <!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head>
+        <title>E-Pharma</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+        <style>
+            h1 {text-align: center;}
+            .navbar-custom {background-color: #6d90c9;}
+            .nav-item .nav-link{ color: #ffffff;}
+            .nav-item a:hover{ color: #d9d0ce; }  
+            .signOut{float: right;}             
+        </style>
+    </head>
+    <body>
+      <div th:replace="header :: header"></div>
+      <section class="h-100 h-custom" style="background-color: #d8d9db;">
+        <div class="container py-5 h-100">
+          <div class="mt-xl-5">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+              <div class="col-lg-8 col-xl-6">
+                <div class="card rounded-3">
+                  
+                  <div id="demo" class="carousel slide" data-bs-ride="carousel">
+
+                   
+                    <div class="carousel-indicators">
+                      <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+                      <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+                      <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+                    </div>
+                  
+                    
+                    <div class="carousel-inner">
+                      <div class="carousel-item active">
+                        <img src="https://images.unsplash.com/photo-1622227922682-56c92e523e58?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80" alt="first med" class="d-block w-100">
+                      </div>
+                      <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=830&q=80" alt="second med" class="d-block w-100">
+                      </div>
+                      <div class="carousel-item">
+                        <img src="https://images.unsplash.com/photo-1576671081837-49000212a370?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=798&q=80" alt="Third med" class="d-block w-100">
+                      </div>
+                    </div>
+                  
+                   
+                    <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+                      <span class="carousel-control-next-icon"></span>
+                    </button>
+                  </div>
+                  
+                  <div class="card-body p-4 p-md-5">  
+                    <h1 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2" th:inline="text">Hello <span th:remove="tag" sec:authentication="name">thymeleaf</span></h1>
+                    <form th:action="@{/logout}" method="post">
+                      <div class="text-center">
+                              <input type="submit" class="btn btn-outline-danger" value="Sign Out"/>  
+                      </div>  
+                  </form>
+                  </div>  
+                </div>
+              </div>  
+            </div>
+          </div>
+        </div>
+      </section>
+    </body>
+    <div th:replace="footer :: footer"></div>
+
+</html>
+-->

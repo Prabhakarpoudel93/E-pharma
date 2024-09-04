@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorator="layouts/default"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link
+      rel="stylesheet"
+      href="https://www.w3schools.com/lib/w3-colors-highway.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://www.w3schools.com/lib/w3-theme-black.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+      /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
+      .row.content {
+        height: 1500px;
+      }
+      /* Set gray background color and 100% height */
+      .sidenav {
+        background-color: #f1f1f1;
+        height: 100%;
+        width: 250px;
+      }
+      /* On small screens, set height to 'auto' for sidenav and grid */
+      @media screen and (max-width: 767px) {
+        .sidenav {
+          height: auto;
+          padding: 15px;
+        }
+        .row.content {
+          height: auto;
+        }
+      }
+      ul li:hover,
+      body.user li.user,
+      body.medicine li.medicine,
+      body.stock li.stock,
+      body.sale li.sale,
+      body.bill li.bill,
+      body.report li.report {
+        background-color: rgb(31, 45, 90);
+      }
+
+      ul li:hover a,
+      body.user li.user a,
+      body.medicine li.medicine a,
+      body.stock li.stock a,
+      body.sale li.sale a,
+      body.bill li.bill a body.report li.report a {
+        color: #fff;
+      }
+      .w3-hover {
+        color: #fff !important;
+        background-color: rgb(31, 45, 90) !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div th:fragment="header">
+      <div
+        class="w3-sidebar w3-bar-block w3-collapse w3-large w3-theme-l5 w3-animate-left"
+      >
+        <ul class="nav nav-pills nav-stacked">
+          <a class="w3-bar-item w3-panel w3-border-bottombar" href="/dashboard">
+            <img width="150" th:src="@{/e-pharma-logo-modified-modified.png}" />
+          </a>
+          <div class="w3-panel w3-border-bottom w3-border-indigo"></div>
+          <li class="user">
+            <a
+              th:href="@{/users}"
+              class="w3-bar-item w3-button w3-hover-blue-grey"
+              >Users</a
+            >
+          </li>
+          <li class="medicine">
+            <a
+              th:href="@{/medicine}"
+              class="w3-bar-item w3-button w3-hover-blue-grey"
+              >Medicines</a
+            >
+          </li>
+          <li class="stock">
+            <a
+              th:href="@{/stock}"
+              class="w3-bar-item w3-button w3-hover-blue-grey"
+              >Stock</a
+            >
+          </li>
+          <li class="sale">
+            <a
+              th:href="@{/sales}"
+              class="w3-bar-item w3-button w3-hover-blue-grey"
+              >Sales</a
+            >
+          </li>
+          <li class="bill">
+            <a
+              th:href="@{/bill}"
+              class="w3-bar-item w3-button w3-hover-blue-grey"
+              >Bills</a
+            >
+          </li>
+          <li class="report">
+            <a
+              th:href="@{/report}"
+              class="w3-bar-item w3-button w3-hover-blue-grey"
+              >Reports</a
+            >
+          </li>
+          <li>
+            <form th:action="@{/logout}" method="post">
+              <input
+                type="submit"
+                class="w3-bar-item w3-button w3-hover-red"
+                value="Sign Out"
+              />
+            </form>
+          </li>
+        </ul>
+        <br />
+      </div>
+    </div>
+  </body>
+</html>

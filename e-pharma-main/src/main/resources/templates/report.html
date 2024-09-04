@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="https://www.thymeleaf.org"
+  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+>
+  <head>
+    <title>Report</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <link
+      rel="stylesheet"
+      href="https://www.w3schools.com/lib/w3-theme-black.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+      footer {
+        background-color: rgb(31, 45, 90);
+        color: white;
+        padding: 15px;
+        text-align: center;
+      }
+      footer a:visited {
+        color: white;
+      }
+      ul li:hover,
+      body.user li.user,
+      body.medicine li.medicine,
+      body.stock li.stock,
+      body.sale li.sale,
+      body.bill li.bill,
+      body.report li.report {
+        background-color: #000;
+      }
+
+      ul li:hover a,
+      body.user li.user a,
+      body.medicine li.medicine a,
+      body.stock li.stock a,
+      body.sale li.sale a,
+      body.bill li.bill a,
+      body.report li.report a {
+        color: #fff;
+      }
+    </style>
+    <body class="report">
+      <div th:replace="fragments/header :: header"></div>
+      <div class="w3-container">
+        <div
+          class="w3-card-4"
+          style="
+            width: 50%;
+            height: 500px;
+            margin-left: 400px;
+            margin-top: 50px;
+            margin-bottom: 150px;
+          "
+        >
+          <div class="container py-5 h-100">
+            <h2>Reports</h2>
+          </div>
+          <div style="margin-top: 50px"></div>
+          <form
+            class="w3-container"
+            th:action="@{/get-report}"
+            method="get"
+            th:object="${reportDto}"
+          >
+            <input type="radio" name="reportType" value="sales" checked />
+            Sales<br /><br />
+            <input type="radio" name="reportType" value="stock" />
+            Stock<br /><br />
+
+            <label for="start-date">Start Date:</label>
+            <input
+              type="date"
+              name="startDate"
+              th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"
+            />
+
+            <label for="end-date" style="margin-left: 50px"
+              >End Date:&nbsp</label
+            >
+            <input
+              type="date"
+              name="endDate"
+              th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"
+            />
+            <div class="mt-xl-5" style="margin-left: 250px; margin-top: 35px">
+              <input
+                type="submit"
+                value="submit"
+                class="btn btn-success btn-lg mb-1"
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+      <div th:replace="fragments/footer :: footer"></div>
+    </body>
+  </head>
+</html>

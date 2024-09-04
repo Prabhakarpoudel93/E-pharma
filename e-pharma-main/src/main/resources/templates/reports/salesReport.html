@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>E-pharma</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
+     <style>
+      footer {
+        background-color: rgb(31, 45, 90);
+        color: white;
+        padding: 15px;
+        text-align: center;
+      }
+      footer a:visited {
+        color: white;
+      }
+      ul li:hover,
+      body.user li.user,
+      body.medicine li.medicine,
+      body.stock li.stock,
+      body.sale li.sale,
+      body.bill li.bill,
+      body.report li.report {
+        background-color: #000;
+      }
+
+      ul li:hover a,
+      body.user li.user a,
+      body.medicine li.medicine a,
+      body.stock li.stock a,
+      body.sale li.sale a,
+      body.bill li.bill a,
+      body.report li.report a {
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body class="report">
+    <div th:replace="fragments/header :: header"></div>
+    <div class="w3-container">
+        <div
+          class="w3-card-4"
+          style="
+            width: 80%;
+            height: 500px;
+            margin-left: 200px;
+            margin-top: 50px;
+            margin-bottom: 20px;
+          "
+        >
+          <div class="container py-5 h-100">
+            <h2>Sales report</h2>
+          </div>
+          <div style="margin-top: 50px"></div>
+          <div style="margin-left: 10px; margin-right: 10px;">
+          <table class="table table-striped table-primary" id="salesTable">
+        <thead class="ttop">
+            <tr class="table-info">
+                <td><b>Sales Id</b></td>
+                <td><b>User Name</b></td>
+                <!--<td><b>MedicineId</b> </td> -->
+                <td><b>Medicine name</b> </td>
+                <td><b>Quantity</b> </td>
+                <td><b>Price</b> </td>
+                <td><b>CheckOutDate</b> </td>
+                
+                <td><b>Expiry Date</b> </td>
+                <td><b>Batch Number</b> </td>
+                <!--<td><b>EntryBy</b> </td>-->
+            </tr>
+        </thead>
+        <tbody> 
+             <tr th:each="sdl : ${salesDtoList}"> 
+                 
+              
+                </td><td th:text="${sdl.salesId}">
+                </td><td th:text="${sdl.username}">
+                </td><td th:text="${sdl.medicineName}">
+                </td><td th:text="${sdl.quantity}">
+               
+                </td><td th:text="${sdl.price}">
+                </td><td th:text="${sdl.checkOutDate}">
+                </td><td th:text="${sdl.expiryDate}">
+                </td><td th:text="${sdl.batchNo}">
+               
+                <!-- </td><td th:text="${sdl.entryBy}"></td> -->
+            </tr>
+          </tbody>
+        </table>
+        </div>
+          
+        </div>
+      </div>
+    
+          <div th:replace="fragments/footer :: footer"></div> 
+  </body>
+</html>
+
+<script>
+    $(document).ready( function () {
+      $('#salesTable').DataTable();
+  } );
+  </script>

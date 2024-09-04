@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <title>
+        Bills
+    </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        footer {
+            background-color: rgb(31,45,90);
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        ul li:hover,
+        body.user li.user,
+        body.medicine li.medicine,
+        body.stock li.stock,
+        body.sale li.sale,
+        body.bill li.bill {
+            background-color: rgb(31, 45, 90)
+        }
+
+        ul li:hover a,
+        body.user li.user a,
+        body.medicine li.medicine a,
+        body.stock li.stock a,
+        body.sale li.sale a,
+        body.bill li.bill a {
+            color: #fff;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #DDD;
+        }
+    </style>
+</head>
+<body class="bill">
+<div th:replace="fragments/header :: header"></div>
+<div class="w3-container">
+    <div class="w3-card-4" style="width: 50%; height: 500px; margin-left: 400px; margin-top: 50px; margin-bottom: 150px;">
+        <div  class="container py-5 h-100">
+            <h2>View Sales Details</h2>
+        </div>
+
+        <input placeholder="Bill Id" id="billId"/> <button id="submit"> Submit</button>
+
+
+
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</head>
+</html>
+<script>
+    $("#submit").click(function () {
+        let billId=$("#billId").val();
+        window.location.href="/bill/"+billId;
+    })
+</script>
